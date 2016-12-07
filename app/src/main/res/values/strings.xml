@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Account_Manager</string>
+
+    <string name="app_info">
+        [사용 방법]\n\n[주의 사항]\n\n[개발자 소개]\n\n
+    </string>
 </resources>
