@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
+import com.example.mar1s.account_manager.signin.Signin;
 
 public class PatternLogin extends AppCompatActivity {
 
@@ -49,7 +50,8 @@ public class PatternLogin extends AppCompatActivity {
         btn_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), Signin.class);
+                startActivity(intent);
             }
         });
 

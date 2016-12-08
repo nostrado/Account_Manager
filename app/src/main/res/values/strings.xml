@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Account_Manager</string>
 
-    <string name="app_info">
-        [사용 방법]\n\n[주의 사항]\n\n[개발자 소개]\n\n
+    <string name="app_manual">
+        1. 사용자 등록\n\n2.계정 등록\n\n3.검색\n\n4.계정 수정 및 삭제
+    </string>
+
+    <string name="dev_info">
+        Name: 심순용(solstar)\nE-mail: mar1st1145@gmail.com
     </string>
 </resources>
