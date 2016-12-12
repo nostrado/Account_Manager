@@ -47,7 +47,7 @@
         android:text="인증에 사용할 패턴을 입력하세요."
         android:textSize="20sp"
         android:textStyle="bold"
-        android:background="#50bfff"/>
+        android:background="#ff50bfff"/>
 
     <com.eftimoff.patternview.PatternView
         xmlns:patternview="http://schemas.android.com/apk/res-auto"

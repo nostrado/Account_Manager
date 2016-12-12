@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.eftimoff.patternview.PatternView;
 import com.example.mar1s.account_manager.signin.Signin;
 
+import io.realm.Realm;
+
 public class PatternLogin extends AppCompatActivity {
 
     private PatternView patternView;
@@ -23,6 +25,7 @@ public class PatternLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(this);
         setContentView(R.layout.activity_pattern_login);
 
         patternView = (PatternView) findViewById(R.id.patternView);

@@ -1,5 +1,6 @@
 package com.example.mar1s.account_manager.signin;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,9 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
 import com.example.mar1s.account_manager.R;
+import com.example.mar1s.account_manager.models.User;
+
+import io.realm.Realm;
 
 public class Signin extends AppCompatActivity {
 
@@ -28,6 +33,10 @@ public class Signin extends AppCompatActivity {
 
     private Button btn_enroll;
 
+    private Realm realm;
+    private String pattern;
+    private String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +47,36 @@ public class Signin extends AppCompatActivity {
         check_pw = (EditText) findViewById(R.id.check_pw);
         pattern_state = (TextView) findViewById(R.id.pattern_state);
         btn_enroll = (Button) findViewById(R.id.btn_enroll);
+        realm = Realm.getDefaultInstance();
+        check_flag = false;
 
         patternView_signin.setOnPatternDetectedListener(new PatternView.OnPatternDetectedListener() {
+            String pattern1;
+            String pattern2;
             @Override
             public void onPatternDetected() {
                 if(check_flag == false) { // first user pattern input
-
+                    pattern1 = patternView_signin.getPatternString();
+                    check_flag = true;
+                    patternView_signin.clearPattern();
+                    pattern_state.setText(state_checck);
+                    pattern_state.setBackgroundColor(Color.YELLOW);
                 }
                 else { // second user pattern input
-
+                    pattern2 = patternView_signin.getPatternString();
+                    if(pattern1.equals(pattern2)){
+                        pattern = pattern2;
+                        pattern_state.setText(state_confirm);
+                        pattern_state.setBackgroundColor(Color.GREEN);
+                        patternView_signin.disableInput();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"패턴이 일치하지 않습니다.\n새로운 패턴을 입력하세요.",Toast.LENGTH_SHORT).show();
+                        check_flag = false;
+                        pattern_state.setText(state_input);
+                        pattern_state.setBackgroundColor(Color.parseColor("#ff50bfff"));
+                        patternView_signin.clearPattern();
+                    }
                 }
             }
         });
@@ -88,7 +118,18 @@ public class Signin extends AppCompatActivity {
         btn_enroll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enrollUser();
+            }
+        });
+    }
 
+    private void enrollUser(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                User user = realm.createObject(User.class);
+                user.setPattern(pattern);
+                user.setPassword(password);
             }
         });
     }
