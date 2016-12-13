@@ -5,6 +5,7 @@
     android:padding="10dp">
 
     <LinearLayout
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -18,10 +19,12 @@
         <EditText
             android:id="@+id/user_pw"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:password="true"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/passwordconfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -35,7 +38,8 @@
         <EditText
             android:id="@+id/check_pw"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:password="true"/>
     </LinearLayout>
 
     <TextView
@@ -62,13 +66,29 @@
         patternview:gridRows="4"
         patternview:gridColumns="4"/>
 
-    <Button
-        android:id="@+id/btn_enroll"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="등록하기"
-        android:textStyle="bold"
-        android:textSize="15sp"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="다시입력하기"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btn_enroll"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="등록하기"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

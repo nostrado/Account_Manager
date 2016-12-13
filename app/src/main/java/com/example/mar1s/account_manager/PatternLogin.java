@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
+import com.example.mar1s.account_manager.models.User;
 import com.example.mar1s.account_manager.signin.Signin;
 
 import io.realm.Realm;
@@ -20,7 +21,10 @@ public class PatternLogin extends AppCompatActivity {
     private Button btn_signin;
     private Button btn_info;
 
-    private String patternString;
+    private String pattern;
+    private String password;
+
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +39,18 @@ public class PatternLogin extends AppCompatActivity {
 
         patternView.setTactileFeedbackEnabled(false);
         patternView.setOnPatternDetectedListener(new PatternView.OnPatternDetectedListener() {
+            String input;
             @Override
             public void onPatternDetected() {
-                patternString = patternView.getPatternString();
-                Toast.makeText(getApplicationContext(),patternString,Toast.LENGTH_LONG).show();
-                patternView.clearPattern();
+                input = patternView.getPatternString();
+                if(pattern.equals(input)){
+                    Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
+                    patternView.clearPattern();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"일치하지 않습니다.\n다시 입력하세요.",Toast.LENGTH_SHORT).show();
+                    patternView.clearPattern();
+                }
             }
         });
 
@@ -65,5 +76,34 @@ public class PatternLogin extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        if(user != null) {
+            pattern = user.getPattern();
+            password = user.getPassword();
+            btn_signin.setEnabled(false);
+            patternView.enableInput();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"사용자 등록이 필요합니다.",Toast.LENGTH_SHORT).show();
+            patternView.disableInput();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        realm.executeTransaction(new Realm.Transaction() { // 전반적인 테스트를 위해서 종료 후에 데이터는 모두 삭제
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+        realm.close();
+        super.onDestroy();
     }
 }
