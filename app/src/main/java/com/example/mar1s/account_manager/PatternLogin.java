@@ -1,5 +1,6 @@
 package com.example.mar1s.account_manager;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,6 @@ import android.widget.Toast;
 import com.eftimoff.patternview.PatternView;
 import com.example.mar1s.account_manager.models.User;
 import com.example.mar1s.account_manager.signin.Signin;
-
-import io.realm.Realm;
 
 public class PatternLogin extends AppCompatActivity {
 
@@ -24,13 +23,17 @@ public class PatternLogin extends AppCompatActivity {
     private String pattern;
     private String password;
 
-    private Realm realm;
+    private DAO dao;
+
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm.init(this);
         setContentView(R.layout.activity_pattern_login);
+
+        dao = DAO.sharedInstance();
+        dao.initDAO(this);
 
         patternView = (PatternView) findViewById(R.id.patternView);
         btn_pwlogin = (Button) findViewById(R.id.btn_pwlogin);
@@ -57,7 +60,8 @@ public class PatternLogin extends AppCompatActivity {
         btn_pwlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                createDialog();
+                dialog.show();
             }
         });
 
@@ -78,10 +82,15 @@ public class PatternLogin extends AppCompatActivity {
         });
     }
 
+    private void createDialog() {
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.activity_password_login);
+        dialog.setCanceledOnTouchOutside(false);
+    }
+
     @Override
     protected void onResume() {
-        realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).findFirst();
+        User user = dao.getUser();
         if(user != null) {
             pattern = user.getPattern();
             password = user.getPassword();
@@ -97,13 +106,8 @@ public class PatternLogin extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        realm.executeTransaction(new Realm.Transaction() { // 전반적인 테스트를 위해서 종료 후에 데이터는 모두 삭제
-            @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
-        realm.close();
+        dao.deleteAlldata();
+        dao.colseDAO();
         super.onDestroy();
     }
 }

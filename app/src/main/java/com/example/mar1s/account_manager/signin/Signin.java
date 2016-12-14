@@ -13,10 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
+import com.example.mar1s.account_manager.DAO;
 import com.example.mar1s.account_manager.R;
-import com.example.mar1s.account_manager.models.User;
-
-import io.realm.Realm;
 
 public class Signin extends AppCompatActivity {
 
@@ -39,7 +37,7 @@ public class Signin extends AppCompatActivity {
     private Button btn_enroll;
     private Button btn_reset;
 
-    private Realm realm;
+    private DAO dao;
     private String pattern;
     private String password;
 
@@ -56,7 +54,7 @@ public class Signin extends AppCompatActivity {
         pattern_state = (TextView) findViewById(R.id.pattern_state);
         btn_enroll = (Button) findViewById(R.id.btn_enroll);
         btn_reset = (Button) findViewById(R.id.btn_reset);
-        realm = Realm.getDefaultInstance();
+        dao = DAO.sharedInstance();
         check_flag = false;
         check_seq_pw = false;
         check_seq_pt = false;
@@ -124,7 +122,7 @@ public class Signin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(check_seq_pw==true && check_seq_pt==true) {
-                    enrollUser();
+                    dao.enrollUser(pattern, password);
                     finish();
                 }
                 else {
@@ -151,17 +149,6 @@ public class Signin extends AppCompatActivity {
                 check_seq_pt = false;
                 pattern="";
                 password="";
-            }
-        });
-    }
-
-    private void enrollUser(){
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                User user = realm.createObject(User.class);
-                user.setPattern(pattern);
-                user.setPassword(password);
             }
         });
     }
