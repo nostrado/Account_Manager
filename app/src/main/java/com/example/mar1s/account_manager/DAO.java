@@ -29,12 +29,12 @@ public class DAO {
     public void initDAO(Context context) {
         Realm.init(context);
 
-        byte[] key = new byte[64];
+/*        byte[] key = new byte[64];
         new SecureRandom().nextBytes(key);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().encryptionKey(key).build();
-        Realm.deleteRealm(realmConfiguration);
-        realm = Realm.getInstance(realmConfiguration);
+        Realm.deleteRealm(realmConfiguration);*/
+        realm = Realm.getDefaultInstance();
     }
 
     public void colseDAO() {

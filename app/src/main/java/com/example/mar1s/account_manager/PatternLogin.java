@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
@@ -26,6 +27,9 @@ public class PatternLogin extends AppCompatActivity {
     private DAO dao;
 
     private Dialog dialog;
+    private Button dialog_btn_cancle;
+    private Button dialog_btn_access;
+    private EditText dialog_edit_input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,14 @@ public class PatternLogin extends AppCompatActivity {
 
         dao = DAO.sharedInstance();
         dao.initDAO(this);
+
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.activity_password_login);
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog_btn_cancle = (Button) dialog.findViewById(R.id.btn_cancle);
+        dialog_btn_access = (Button) dialog.findViewById(R.id.btn_access);
+        dialog_edit_input = (EditText) dialog.findViewById(R.id.input_pw);
 
         patternView = (PatternView) findViewById(R.id.patternView);
         btn_pwlogin = (Button) findViewById(R.id.btn_pwlogin);
@@ -60,7 +72,6 @@ public class PatternLogin extends AppCompatActivity {
         btn_pwlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createDialog();
                 dialog.show();
             }
         });
@@ -80,12 +91,31 @@ public class PatternLogin extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
-    private void createDialog() {
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.activity_password_login);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog_btn_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+                dialog_edit_input.setText("");
+            }
+        });
+
+        dialog_btn_access.setOnClickListener(new View.OnClickListener() {
+            String input;
+            @Override
+            public void onClick(View view) {
+                input = dialog_edit_input.getText().toString();
+                if(!input.isEmpty() && input.equals(password)) {
+                    Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                    dialog_edit_input.setText("");
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"비밀번호가 틀렸습니다.\n다시 입력하세요.",Toast.LENGTH_SHORT).show();
+                    dialog_edit_input.setText("");
+                }
+            }
+        });
     }
 
     @Override
@@ -96,17 +126,18 @@ public class PatternLogin extends AppCompatActivity {
             password = user.getPassword();
             btn_signin.setEnabled(false);
             patternView.enableInput();
+            btn_pwlogin.setEnabled(true);
         }
         else {
             Toast.makeText(getApplicationContext(),"사용자 등록이 필요합니다.",Toast.LENGTH_SHORT).show();
             patternView.disableInput();
+            btn_pwlogin.setEnabled(false);
         }
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        dao.deleteAlldata();
         dao.colseDAO();
         super.onDestroy();
     }
