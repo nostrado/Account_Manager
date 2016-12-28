@@ -2,14 +2,70 @@ package com.example.mar1s.account_manager.mainscreen;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mar1s.account_manager.R;
 
 public class Mainscreen extends AppCompatActivity {
+    private EditText input_domain;
+
+    private Button btn_search;
+    private Button btn_addAC;
+    private Button btn_control;
+
+    private RecyclerView main_recyclerView;
+    private MainRVAdapter Adapter;
+
+    private String domain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        input_domain = (EditText) findViewById(R.id.input_domain);
+
+        btn_search = (Button) findViewById(R.id.btn_search);
+        btn_addAC = (Button) findViewById(R.id.btn_addAC);
+        btn_control = (Button) findViewById(R.id.btn_control);
+
+        main_recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        Adapter = new MainRVAdapter();
+        main_recyclerView.setAdapter(Adapter);
+        main_recyclerView.setHasFixedSize(true);
+        main_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                domain = input_domain.getText().toString();
+                if(domain.isEmpty()) {
+                    Toast.makeText(getApplicationContext(),"검색할 도메인을 입력하세요.",Toast.LENGTH_SHORT).show();
+                    input_domain.setText("");
+                }
+                else {
+                    // Refresh Searching Result view
+                }
+            }
+        });
+
+        btn_addAC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // move Account Enroll Activity
+            }
+        });
+
+        btn_control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // move User Info Control Activity
+            }
+        });
     }
 }

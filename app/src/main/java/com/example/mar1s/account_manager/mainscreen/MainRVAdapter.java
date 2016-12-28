@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.mar1s.account_manager.DAO;
 import com.example.mar1s.account_manager.R;
 import com.example.mar1s.account_manager.models.Account;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmResults;
 
 /**
  * Created by mar1s on 2016-12-26.
@@ -18,7 +18,8 @@ import java.util.List;
 
 public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder> {
 
-    private List<Account> accountList = new ArrayList<>();
+    private RealmResults<Account> accountList;
+    private DAO dao;
 
     public final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView user_id;
@@ -35,8 +36,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-
+            // move Account Details Activity
         }
+    }
+
+    public MainRVAdapter() {
+        dao = DAO.sharedInstance();
     }
 
     @Override
@@ -58,7 +63,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
         return accountList.size();
     }
 
-    public void setAccountList(List<Account> list) {
-        accountList = list;
+    public void setAccountList(String _domain) {
+
     }
 }
