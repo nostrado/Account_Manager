@@ -57,6 +57,16 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[검색 결과]"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:background="#00fff2"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recyclerView"
         android:layout_width="match_parent"

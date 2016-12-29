@@ -2,12 +2,14 @@ package com.example.mar1s.account_manager;
 
 import android.content.Context;
 
+import com.example.mar1s.account_manager.models.Account;
 import com.example.mar1s.account_manager.models.User;
 
 import java.security.SecureRandom;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * Created by mar1s on 2016-12-14.
@@ -28,12 +30,6 @@ public class DAO {
 
     public void initDAO(Context context) {
         Realm.init(context);
-
-/*        byte[] key = new byte[64];
-        new SecureRandom().nextBytes(key);
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().encryptionKey(key).build();
-        Realm.deleteRealm(realmConfiguration);*/
         realm = Realm.getDefaultInstance();
     }
 
@@ -55,6 +51,11 @@ public class DAO {
     public User getUser() {
         User user = realm.where(User.class).findFirst();
         return user;
+    }
+
+    public RealmResults<Account> getAccountList(String domain) {
+        RealmResults<Account> results = realm.where(Account.class).equalTo("domain", domain).findAll();
+        return  results;
     }
 
     public void deleteAlldata() {

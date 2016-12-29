@@ -1,5 +1,6 @@
 package com.example.mar1s.account_manager.mainscreen;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,12 @@ public class Mainscreen extends AppCompatActivity {
                 }
                 else {
                     // Refresh Searching Result view
+                    Adapter.setAccountList(domain);
+                    Adapter.notifyDataSetChanged();
+                    main_recyclerView.refreshDrawableState();
+                    if(Adapter.getItemCount() == 0) {
+                        Toast.makeText(getApplicationContext(),"등록된 계정이 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -58,6 +65,8 @@ public class Mainscreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // move Account Enroll Activity
+                Intent intent = new Intent(getApplicationContext(),MainAddAccount.class);
+                startActivity(intent);
             }
         });
 

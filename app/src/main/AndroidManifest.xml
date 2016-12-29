@@ -15,17 +15,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Help_info"
             android:label="도움말" />
-
         <activity
             android:name=".signin.Signin"
             android:label="사용자 등록" />
-
         <activity
-            android:name=".mainscreen.Mainscreen"/>
+            android:name=".mainscreen.Mainscreen" />
+        <activity
+            android:name=".mainscreen.MainAddAccount"
+            android:label="계정 등록"/>
     </application>
 
 </manifest>

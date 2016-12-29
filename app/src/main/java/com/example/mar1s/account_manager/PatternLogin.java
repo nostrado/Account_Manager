@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.eftimoff.patternview.PatternView;
+import com.example.mar1s.account_manager.mainscreen.Mainscreen;
 import com.example.mar1s.account_manager.models.User;
 import com.example.mar1s.account_manager.signin.Signin;
 
@@ -59,8 +60,10 @@ public class PatternLogin extends AppCompatActivity {
             public void onPatternDetected() {
                 input = patternView.getPatternString();
                 if(pattern.equals(input)){
-                    Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
                     patternView.clearPattern();
+                    Intent intent = new Intent(getApplicationContext(), Mainscreen.class);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"일치하지 않습니다.\n다시 입력하세요.",Toast.LENGTH_SHORT).show();
@@ -106,9 +109,11 @@ public class PatternLogin extends AppCompatActivity {
             public void onClick(View view) {
                 input = dialog_edit_input.getText().toString();
                 if(!input.isEmpty() && input.equals(password)) {
-                    Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                     dialog_edit_input.setText("");
+                    Intent intent = new Intent(getApplicationContext(),Mainscreen.class);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"비밀번호가 틀렸습니다.\n다시 입력하세요.",Toast.LENGTH_SHORT).show();

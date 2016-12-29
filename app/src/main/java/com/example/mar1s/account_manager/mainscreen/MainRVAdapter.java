@@ -60,10 +60,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
+        if(accountList == null){
+            return 0;
+        }
         return accountList.size();
     }
 
     public void setAccountList(String _domain) {
-
+        accountList = dao.getAccountList(_domain);
     }
 }
