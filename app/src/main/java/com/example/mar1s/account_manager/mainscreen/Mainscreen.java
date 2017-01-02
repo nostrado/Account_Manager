@@ -57,6 +57,7 @@ public class Mainscreen extends AppCompatActivity {
                     if(Adapter.getItemCount() == 0) {
                         Toast.makeText(getApplicationContext(),"등록된 계정이 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
                     }
+                    input_domain.setText("");
                 }
             }
         });

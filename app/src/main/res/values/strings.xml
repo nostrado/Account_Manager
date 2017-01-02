@@ -8,4 +8,17 @@
     <string name="dev_info">
         Name: 심순용(solstar)\nE-mail: mar1st1145@gmail.com
     </string>
+
+    <string name="ac_add_help">
+        [계정 등록 도움말]\n\n
+        1. 도메인\n
+            \t\t계정을 만든 웹 페이지의 주소를 입력합니다.\n
+            \t\t계정 검색과 수정에 이용되므로 중요합니다.\n\n
+        2. ID, 비밀번호, 비밀번호 확인\n
+            \t\t계정의 아이디와 비밀번호를 입력합니다.\n
+            \t\t비밀번호 확인은 잘못된 입력을 방지하기 위함입니다.\n\n
+        3. 소유자\n
+            \t\t계정의 주인의 이름을 입력합니다.\n
+            \t\t임의로 입력해도 무관합니다.\n
+    </string>
 </resources>

@@ -48,6 +48,19 @@ public class DAO {
         });
     }
 
+    public void enrollAccount(final String _domain, final String _id, final String _pw, final String _name) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Account account = realm.createObject(Account.class);
+                account.setDomain(_domain);
+                account.setUserID(_id);
+                account.setUserPW(_pw);
+                account.setUserName(_name);
+            }
+        });
+    }
+
     public User getUser() {
         User user = realm.where(User.class).findFirst();
         return user;
