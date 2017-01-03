@@ -21,4 +21,8 @@
             \t\t계정의 주인의 이름을 입력합니다.\n
             \t\t임의로 입력해도 무관합니다.\n
     </string>
+
+    <string name="control_initapp">
+
+    </string>
 </resources>
