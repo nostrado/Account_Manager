@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="#ead76c">
+    android:background="#00ffdd">
 
     <TextView
         android:id="@+id/user_id"

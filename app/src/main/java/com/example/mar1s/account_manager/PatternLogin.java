@@ -60,7 +60,6 @@ public class PatternLogin extends AppCompatActivity {
             public void onPatternDetected() {
                 input = patternView.getPatternString();
                 if(pattern.equals(input)){
-                    //Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
                     patternView.clearPattern();
                     Intent intent = new Intent(getApplicationContext(), Mainscreen.class);
                     startActivity(intent);
@@ -109,7 +108,6 @@ public class PatternLogin extends AppCompatActivity {
             public void onClick(View view) {
                 input = dialog_edit_input.getText().toString();
                 if(!input.isEmpty() && input.equals(password)) {
-                    //Toast.makeText(getApplicationContext(),"인증되었습니다.",Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                     dialog_edit_input.setText("");
                     Intent intent = new Intent(getApplicationContext(),Mainscreen.class);
@@ -137,6 +135,7 @@ public class PatternLogin extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"사용자 등록이 필요합니다.",Toast.LENGTH_SHORT).show();
             patternView.disableInput();
             btn_pwlogin.setEnabled(false);
+            btn_signin.setEnabled(true);
         }
         super.onResume();
     }

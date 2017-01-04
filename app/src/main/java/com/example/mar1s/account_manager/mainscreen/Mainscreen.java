@@ -58,6 +58,7 @@ public class Mainscreen extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"등록된 계정이 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
                     }
                     input_domain.setText("");
+                    domain="";
                 }
             }
         });
@@ -75,6 +76,8 @@ public class Mainscreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // move User Info Control Activity
+                Intent intent = new Intent(getApplicationContext(), MainUserControl.class);
+                startActivity(intent);
             }
         });
     }

@@ -15,11 +15,12 @@
             android:layout_height="wrap_content"
             android:text="비밀번호: "
             android:textStyle="bold"
-            android:textSize="15sp"/>
+            android:textSize="20sp"/>
         <EditText
             android:id="@+id/user_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:inputType="textPassword"/>
     </LinearLayout>
 
@@ -33,12 +34,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호 확인: "
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <EditText
             android:id="@+id/check_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:inputType="textPassword"/>
     </LinearLayout>
 
@@ -78,7 +80,7 @@
             android:layout_height="wrap_content"
             android:text="다시입력하기"
             android:textStyle="bold"
-            android:textSize="15sp"/>
+            android:textSize="20sp"/>
 
         <Button
             android:id="@+id/btn_enroll"
@@ -87,7 +89,7 @@
             android:layout_height="wrap_content"
             android:text="등록하기"
             android:textStyle="bold"
-            android:textSize="15sp"/>
+            android:textSize="20sp"/>
 
     </LinearLayout>
 

@@ -21,11 +21,13 @@
         <activity
             android:name=".signin.Signin"
             android:label="사용자 등록" />
-        <activity
-            android:name=".mainscreen.Mainscreen" />
+        <activity android:name=".mainscreen.Mainscreen" />
         <activity
             android:name=".mainscreen.MainAddAccount"
-            android:label="계정 등록"/>
+            android:label="계정 등록" />
+        <activity
+            android:name=".mainscreen.MainUserControl"
+            android:label="사용자 정보 설정"/>
     </application>
 
 </manifest>

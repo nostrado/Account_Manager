@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
+            android:maxLines="1"
             android:hint="도메인 입력"
             android:textSize="20sp"/>
 

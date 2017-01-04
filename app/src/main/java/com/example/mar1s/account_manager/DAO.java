@@ -79,4 +79,13 @@ public class DAO {
             }
         });
     }
+
+    public void deleteAllAccount() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(Account.class);
+            }
+        });
+    }
 }
