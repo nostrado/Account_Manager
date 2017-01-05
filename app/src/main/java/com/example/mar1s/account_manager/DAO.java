@@ -66,6 +66,16 @@ public class DAO {
         return user;
     }
 
+    public void updateUserPassword(final String password) {
+        final User user = realm.where(User.class).findFirst();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user.setPassword(password);
+            }
+        });
+    }
+
     public RealmResults<Account> getAccountList(String domain) {
         RealmResults<Account> results = realm.where(Account.class).equalTo("domain", domain).findAll();
         return  results;
