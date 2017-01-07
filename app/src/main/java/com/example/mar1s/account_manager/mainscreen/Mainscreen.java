@@ -36,7 +36,7 @@ public class Mainscreen extends AppCompatActivity {
         btn_control = (Button) findViewById(R.id.btn_control);
 
         main_recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
-        Adapter = new MainRVAdapter();
+        Adapter = new MainRVAdapter(this);
         main_recyclerView.setAdapter(Adapter);
         main_recyclerView.setHasFixedSize(true);
         main_recyclerView.setLayoutManager(new LinearLayoutManager(this));

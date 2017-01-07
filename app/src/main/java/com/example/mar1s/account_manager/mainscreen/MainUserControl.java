@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eftimoff.patternview.PatternView;
 import com.example.mar1s.account_manager.DAO;
 import com.example.mar1s.account_manager.R;
 
@@ -37,13 +39,23 @@ public class MainUserControl extends AppCompatActivity {
     private String update_password;
     private String formal_password;
 
+    private Dialog dialogUPPT;
+    private Button dialogUPPT_btn_cancel;
+    private Button dialogUPPT_btn_update;
+    private TextView dialogUPPT_state_view;
+    private PatternView dialogUPPT_patternview;
+    private String formal_pattern;
+    private String update_pattern;
+    private String input_first;
+    private String input_check;
+    private int update_phase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_userinfo_control);
 
         dao = DAO.sharedInstance();
-        formal_password = dao.getUser().getPassword();
 
         btn_initapp = (Button) findViewById(R.id.btn_control_initapp);
         btn_modipassword = (Button) findViewById(R.id.btn_control_modipassword);
@@ -53,6 +65,7 @@ public class MainUserControl extends AppCompatActivity {
         dialogUPPW = new Dialog(this);
         dialogUPPW.setContentView(R.layout.activity_password_update);
         dialogUPPW.setCanceledOnTouchOutside(false);
+        dialogUPPW.setTitle("비밀번호 변경");
         dialogUPPW_btn_cancel = (Button) dialogUPPW.findViewById(R.id.pwupdate_btn_cancel);
         dialogUPPW_btn_update = (Button) dialogUPPW.findViewById(R.id.pwupdate_btn_update);
         dialogUPPW_formalpw_input = (EditText) dialogUPPW.findViewById(R.id.pwupdate_formalpw_input);
@@ -63,6 +76,17 @@ public class MainUserControl extends AppCompatActivity {
         dialogUPPW_newpw_view1.setVisibility(View.GONE);
         dialogUPPW_newpw_view2 = (LinearLayout) dialogUPPW.findViewById(R.id.pwupdate_newpw_view2);
         dialogUPPW_newpw_view2.setVisibility(View.GONE);
+
+        dialogUPPT = new Dialog(this);
+        dialogUPPT.setContentView(R.layout.activity_pattern_update);
+        dialogUPPT.setCanceledOnTouchOutside(false);
+        dialogUPPT.setTitle("패턴 변경");
+        dialogUPPT_btn_cancel = (Button) dialogUPPT.findViewById(R.id.updatept_btn_cancel);
+        dialogUPPT_btn_update = (Button) dialogUPPT.findViewById(R.id.updatept_btn_update);
+        dialogUPPT_btn_update.setEnabled(false);
+        dialogUPPT_state_view = (TextView) dialogUPPT.findViewById(R.id.updatept_state_view);
+        dialogUPPT_patternview = (PatternView) dialogUPPT.findViewById(R.id.updatept_patternview);
+        update_phase = 0;
 
         btn_initapp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +99,8 @@ public class MainUserControl extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // move password update dialog
+                formal_password = dao.getUser().getPassword();
+                initUPPWDialog();
                 dialogUPPW.show();
             }
         });
@@ -83,6 +109,9 @@ public class MainUserControl extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // move pattern update dialog
+                formal_pattern = dao.getUser().getPattern();
+                initUPPTDialog();
+                dialogUPPT.show();
             }
         });
 
@@ -155,6 +184,80 @@ public class MainUserControl extends AppCompatActivity {
                 }
             }
         });
+
+        dialogUPPT_patternview.setOnPatternDetectedListener(new PatternView.OnPatternDetectedListener() {
+            @Override
+            public void onPatternDetected() {
+                switch (update_phase) {
+                    case 0:
+                        input_first = dialogUPPT_patternview.getPatternString();
+                        if(input_first.equals(formal_pattern)) {
+                            dialogUPPT_state_view.setText("변경할 패턴을 입력하세요.");
+                            dialogUPPT_state_view.setBackgroundColor(Color.YELLOW);
+                            dialogUPPT_patternview.clearPattern();
+                            update_phase = 1;
+                        }
+                        else {
+                            dialogUPPT_patternview.clearPattern();
+                            Toast.makeText(getApplicationContext(),"일치하지 않습니다\n다시 입력하세요.",Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    case 1:
+                        input_first = dialogUPPT_patternview.getPatternString();
+                        dialogUPPT_state_view.setText("패턴을 다시 한번 입력하세요.");
+                        dialogUPPT_patternview.clearPattern();
+                        update_phase = 2;
+                        break;
+
+                    case 2:
+                        input_check = dialogUPPT_patternview.getPatternString();
+                        if(input_check.equals(input_first)) {
+                            update_pattern = input_first;
+                            dialogUPPT_state_view.setText("변경하기 버튼을 클릭하세요.");
+                            dialogUPPT_state_view.setBackgroundColor(Color.GREEN);
+                            dialogUPPT_patternview.disableInput();
+                            dialogUPPT_btn_update.setEnabled(true);
+                            update_phase = 0;
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"일치하지 않습니다. 변경할 패턴 입력 단계로 돌아갑니다.",Toast.LENGTH_SHORT).show();
+                            update_phase = 1;
+                            dialogUPPT_state_view.setText("변경할 패턴을 입력하세요.");
+                            dialogUPPT_state_view.setBackgroundColor(Color.YELLOW);
+                            dialogUPPT_patternview.clearPattern();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+
+        dialogUPPT_btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogUPPT.cancel();
+                initUPPTDialog();
+            }
+        });
+
+        dialogUPPT_btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!update_pattern.isEmpty()) {
+                    dao.updateUserPattern(update_pattern);
+                    dialogUPPT.cancel();
+                    initUPPTDialog();
+                    update_pattern = "";
+                    Toast.makeText(getApplicationContext(),"패턴이 변경되었습니다.",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"변경 과정이 완료되지 않았습니다.\n변경 과정을 완료하세요.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private AlertDialog createDialogBox(String type, String msg, final int controlnum) {
@@ -208,5 +311,15 @@ public class MainUserControl extends AppCompatActivity {
         dialogUPPW_newpw_check.setEnabled(true);
         dialogUPPW_newpw_view1.setVisibility(View.GONE);
         dialogUPPW_newpw_view2.setVisibility(View.GONE);
+    }
+
+    private void initUPPTDialog() {
+        dialogUPPT_state_view.setText("이전 패턴을 입력하세요.");
+        dialogUPPT_state_view.setBackgroundColor(Color.WHITE);
+        dialogUPPT_patternview.enableInput();
+        dialogUPPT_patternview.clearPattern();
+        dialogUPPT_btn_update.setEnabled(false);
+        update_phase = 0;
+        update_pattern = "";
     }
 }

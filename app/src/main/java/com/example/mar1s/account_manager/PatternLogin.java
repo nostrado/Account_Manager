@@ -43,6 +43,7 @@ public class PatternLogin extends AppCompatActivity {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_password_login);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setTitle("비밀번호 인증");
 
         dialog_btn_cancle = (Button) dialog.findViewById(R.id.btn_cancle);
         dialog_btn_access = (Button) dialog.findViewById(R.id.btn_access);

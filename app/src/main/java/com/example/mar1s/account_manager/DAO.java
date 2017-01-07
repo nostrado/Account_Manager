@@ -76,6 +76,16 @@ public class DAO {
         });
     }
 
+    public void updateUserPattern(final String pattern) {
+        final User user = realm.where(User.class).findFirst();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user.setPattern(pattern);
+            }
+        });
+    }
+
     public RealmResults<Account> getAccountList(String domain) {
         RealmResults<Account> results = realm.where(Account.class).equalTo("domain", domain).findAll();
         return  results;
@@ -95,6 +105,15 @@ public class DAO {
             @Override
             public void execute(Realm realm) {
                 realm.delete(Account.class);
+            }
+        });
+    }
+
+    public void deleteOneAccount(final Account account) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                account.deleteFromRealm();
             }
         });
     }
