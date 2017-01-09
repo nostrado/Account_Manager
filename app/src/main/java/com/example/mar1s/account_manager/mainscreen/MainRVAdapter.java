@@ -27,6 +27,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
     private RealmResults<Account> accountList;
     private DAO dao;
     private Context context;
+    private INF_ViewHolder inf_viewHolder;
 
     public final static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView user_id;
@@ -36,8 +37,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
 
         private Context context;
         private Account account;
+        private INF_ViewHolder inf_viewHolder;
 
-        public ViewHolder(View itemView, Context context) {
+        public ViewHolder(View itemView, Context context, INF_ViewHolder infViewHolder) {
             super(itemView);
             user_id = (TextView) itemView.findViewById(R.id.user_id);
             user_name = (TextView) itemView.findViewById(R.id.user_name);
@@ -45,6 +47,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
             user_pw = (TextView) itemView.findViewById(R.id.user_pw);
 
             this.context = context;
+            this.inf_viewHolder = infViewHolder;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,6 +68,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
                 public void onClick(DialogInterface dialogInterface, int i) {
                     // delete One Account
                     DAO.sharedInstance().deleteOneAccount(account);
+                    inf_viewHolder.refreshAccountList();
                     Toast.makeText(context,"계정이 삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 }
             });
@@ -83,8 +87,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
         }
     }
 
-    public MainRVAdapter(Context context) {
+    public MainRVAdapter(Context context, INF_ViewHolder infViewHolder) {
         dao = DAO.sharedInstance();
+        this.inf_viewHolder = infViewHolder;
         this.context = context;
     }
 
@@ -92,7 +97,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
         final View view = mInflater.inflate(R.layout.activity_main_viewitem, parent,false);
-        return new ViewHolder(view,context);
+        return new ViewHolder(view,context,inf_viewHolder);
     }
 
     @Override

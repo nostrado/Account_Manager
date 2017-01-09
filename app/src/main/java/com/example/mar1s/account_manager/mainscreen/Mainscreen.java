@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.mar1s.account_manager.R;
 
-public class Mainscreen extends AppCompatActivity {
+public class Mainscreen extends AppCompatActivity{
     private EditText input_domain;
 
     private Button btn_search;
@@ -36,7 +36,14 @@ public class Mainscreen extends AppCompatActivity {
         btn_control = (Button) findViewById(R.id.btn_control);
 
         main_recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
-        Adapter = new MainRVAdapter(this);
+        Adapter = new MainRVAdapter(this, new INF_ViewHolder() {
+            @Override
+            public void refreshAccountList() {
+                Adapter.setAccountList(domain);
+                Adapter.notifyDataSetChanged();
+                main_recyclerView.refreshDrawableState();
+            }
+        });
         main_recyclerView.setAdapter(Adapter);
         main_recyclerView.setHasFixedSize(true);
         main_recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,7 +65,6 @@ public class Mainscreen extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"등록된 계정이 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
                     }
                     input_domain.setText("");
-                    domain="";
                 }
             }
         });
