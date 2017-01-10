@@ -37,8 +37,8 @@ public class PatternLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pattern_login);
 
+        DAO.initDAO(this);
         dao = DAO.sharedInstance();
-        dao.initDAO(this);
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_password_login);

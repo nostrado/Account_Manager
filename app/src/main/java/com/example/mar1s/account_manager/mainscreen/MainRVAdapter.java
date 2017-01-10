@@ -14,8 +14,6 @@ import com.example.mar1s.account_manager.DAO;
 import com.example.mar1s.account_manager.R;
 import com.example.mar1s.account_manager.models.Account;
 
-import org.w3c.dom.Text;
-
 import io.realm.RealmResults;
 
 /**

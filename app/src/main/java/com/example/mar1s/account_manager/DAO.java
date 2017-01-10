@@ -5,8 +5,6 @@ import android.content.Context;
 import com.example.mar1s.account_manager.models.Account;
 import com.example.mar1s.account_manager.models.User;
 
-import java.security.SecureRandom;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -16,7 +14,7 @@ import io.realm.RealmResults;
  */
 
 public class DAO {
-    private Realm realm;
+    private static Realm realm;
     private static DAO obj;
 
     private DAO() {    }
@@ -28,9 +26,13 @@ public class DAO {
         return obj;
     }
 
-    public void initDAO(Context context) {
+    public static void initDAO(Context context) {
         Realm.init(context);
-        realm = Realm.getDefaultInstance();
+        String key = "WPBELLMQJIGDJHTUXLPQOGMQEFSGAHSTXZCJNRIYFUTJBVAPRTKUVDBFMYLWMXLD";
+        RealmConfiguration configuration = new RealmConfiguration.Builder().encryptionKey(key.getBytes()).build();
+        realm = Realm.getInstance(configuration);
+
+
     }
 
     public void colseDAO() {
